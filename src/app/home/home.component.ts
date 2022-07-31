@@ -15,10 +15,6 @@ import { TableComponentModule } from '../shared/ui/table.component';
         <th>First</th>
         <th>Last</th>
       </ng-template>
-      <ng-template #rows let-row>
-        <td>{{ row.firstName }}</td>
-        <td>{{ row.lastName }}</td>
-      </ng-template>
     </app-table>
 
     <!-- Highly configured template with conditional elements -->
