@@ -73,8 +73,8 @@ import {
 })
 export class TableComponent {
   @Input() data!: any[];
-  @ContentChild('headers') headers!: TemplateRef<any>;
-  @ContentChild('rows') rows!: TemplateRef<any>;
+  @ContentChild('headers') headers: TemplateRef<any> | undefined;
+  @ContentChild('rows') rows: TemplateRef<any> | undefined;
 }
 
 @NgModule({

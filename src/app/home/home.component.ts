@@ -23,6 +23,7 @@ import { TableComponentModule } from '../shared/ui/table.component';
         <th>Item</th>
         <th>Price</th>
         <th></th>
+        <th></th>
       </ng-template>
       <ng-template #rows let-row>
         <td>{{ row.name }}</td>
@@ -31,6 +32,9 @@ import { TableComponentModule } from '../shared/ui/table.component';
           <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
             Buy now
           </button>
+        </td>
+        <td>
+          <button>Delete</button>
         </td>
       </ng-template>
     </app-table>
