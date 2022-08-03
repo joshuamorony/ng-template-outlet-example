@@ -3,42 +3,52 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TableComponentModule } from '../shared/ui/table.component';
 
+interface InventoryItem {
+  price: number;
+  supplier: string;
+  plu: number;
+  name: string;
+  inStock: number;
+  currency: string;
+}
+
 @Component({
   selector: 'app-home',
-  template: `
-    <!-- No templates provided, will use default layout -->
-    <app-table [data]="employees"></app-table>
-
-    <!-- Basic configured template -->
-    <app-table [data]="employees">
-      <ng-template #headers>
-        <th>First</th>
-        <th>Last</th>
-      </ng-template>
-    </app-table>
-
-    <!-- Highly configured template with conditional elements -->
-    <app-table [data]="inventory">
-      <ng-template #headers>
-        <th>Item</th>
-        <th>Price</th>
-        <th></th>
-        <th></th>
-      </ng-template>
-      <ng-template #rows let-row>
-        <td>{{ row.name }}</td>
-        <td>{{ row.price | currency: row.currency }}</td>
-        <td>
-          <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
-            Buy now
-          </button>
-        </td>
-        <td>
-          <button>Delete</button>
-        </td>
-      </ng-template>
-    </app-table>
-  `,
+  templateUrl: './home.component.html',
+  // template: `
+  //   <!-- No templates provided, will use default layout -->
+  //   <app-table [data]="employees"></app-table>
+  //
+  //   <!-- Basic configured template -->
+  //   <app-table [data]="employees">
+  //     <ng-template appTableHeader>
+  //       <th>First</th>
+  //       <th>Last</th>
+  //     </ng-template>
+  //   </app-table>
+  //
+  //   <!-- Highly configured template with conditional elements -->
+  //   <app-table [data]="inventory">
+  //     <ng-template [appTableHeader]="inventory">
+  //       <th>Item</th>
+  //       <th>Price</th>
+  //       <th></th>
+  //       <th></th>
+  //     </ng-template>
+  //     <ng-container *appTableRow="inventory as row">
+  //       <td>{{ row.name }}</td>
+  //       <td>{{ row.price | currency: row.currency }}</td>
+  //       <td>
+  //         <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
+  //           Buy now
+  //         </button>
+  //       </td>
+  //       <td>
+  //         <button>Delete</button>
+  //       </td>
+  //     </ng-container>
+  //   </app-table>
+  // `,
 })
 export class HomeComponent {
   employees = [
@@ -49,7 +59,7 @@ export class HomeComponent {
     { firstName: 'Employee', lastName: 'Five' },
   ];
 
-  inventory = [
+  inventory: InventoryItem[] = [
     {
       plu: 110,
       supplier: 'X Corp',
