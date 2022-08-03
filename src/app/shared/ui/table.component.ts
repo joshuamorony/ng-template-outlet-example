@@ -2,10 +2,50 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   ContentChild,
+  Directive,
   Input,
   NgModule,
   TemplateRef,
 } from '@angular/core';
+
+interface TableHeaderTemplateContext<TItem extends object> {
+  $implicit: TItem[];
+  appTableHeader: TItem[];
+}
+
+@Directive({
+  selector: 'ng-template[appTableHeader]',
+})
+export class TableHeaderTemplateDirective<TItem extends object> {
+  @Input('appTableHeader') data!: TItem[] | '' | undefined;
+
+  static ngTemplateContextGuard<TContextItem extends object>(
+    dir: TableHeaderTemplateDirective<TContextItem>,
+    ctx: unknown
+  ): ctx is TableHeaderTemplateContext<TContextItem> {
+    return true;
+  }
+}
+
+interface TableRowTemplateContext<TItem extends object> {
+  $implicit: TItem;
+  appTableRow: TItem;
+  index: number;
+}
+
+@Directive({
+  selector: 'ng-template[appTableRow]',
+})
+export class TableRowTemplateDirective<TItem extends object> {
+  @Input('appTableRow') data!: TItem[];
+
+  static ngTemplateContextGuard<TContextItem extends object>(
+    dir: TableRowTemplateDirective<TContextItem>,
+    ctx: unknown
+  ): ctx is TableRowTemplateContext<TContextItem> {
+    return true;
+  }
+}
 
 @Component({
   selector: 'app-table',
@@ -16,17 +56,17 @@ import {
           <ng-container
             *ngTemplateOutlet="
               headers || defaultHeaderTemplate;
-              context: { $implicit: data }
+              context: { $implicit: data, appTableHeader: data }
             "
           ></ng-container>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of data">
+        <tr *ngFor="let row of data; index as i">
           <ng-container
             *ngTemplateOutlet="
               rows || defaultRowTemplate;
-              context: { $implicit: row }
+              context: { $implicit: row, appTableRow: row, index: i }
             "
           ></ng-container>
         </tr>
@@ -71,15 +111,27 @@ import {
     `,
   ],
 })
-export class TableComponent {
-  @Input() data!: any[];
-  @ContentChild('headers') headers: TemplateRef<any> | undefined;
-  @ContentChild('rows') rows: TemplateRef<any> | undefined;
+export class TableComponent<TItem extends object> {
+  @Input() data!: TItem[];
+
+  @ContentChild(TableHeaderTemplateDirective, { read: TemplateRef })
+  headers?: TemplateRef<TItem>;
+
+  @ContentChild(TableRowTemplateDirective, { read: TemplateRef })
+  rows?: TemplateRef<TItem>;
 }
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [TableComponent],
-  exports: [TableComponent],
+  declarations: [
+    TableComponent,
+    TableHeaderTemplateDirective,
+    TableRowTemplateDirective,
+  ],
+  exports: [
+    TableComponent,
+    TableHeaderTemplateDirective,
+    TableRowTemplateDirective,
+  ],
 })
 export class TableComponentModule {}

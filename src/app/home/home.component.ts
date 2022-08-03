@@ -3,6 +3,15 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TableComponentModule } from '../shared/ui/table.component';
 
+interface InventoryItem {
+  price: number;
+  supplier: string;
+  plu: number;
+  name: string;
+  inStock: number;
+  currency: string;
+}
+
 @Component({
   selector: 'app-home',
   template: `
@@ -11,7 +20,7 @@ import { TableComponentModule } from '../shared/ui/table.component';
 
     <!-- Basic configured template -->
     <app-table [data]="employees">
-      <ng-template #headers>
+      <ng-template appTableHeader>
         <th>First</th>
         <th>Last</th>
       </ng-template>
@@ -19,13 +28,13 @@ import { TableComponentModule } from '../shared/ui/table.component';
 
     <!-- Highly configured template with conditional elements -->
     <app-table [data]="inventory">
-      <ng-template #headers>
+      <ng-template appTableHeader>
         <th>Item</th>
         <th>Price</th>
         <th></th>
         <th></th>
       </ng-template>
-      <ng-template #rows let-row>
+      <ng-template [appTableRow]="inventory" let-row>
         <td>{{ row.name }}</td>
         <td>{{ row.price | currency: row.currency }}</td>
         <td>
@@ -38,6 +47,28 @@ import { TableComponentModule } from '../shared/ui/table.component';
         </td>
       </ng-template>
     </app-table>
+
+    <!-- using structural directive syntax -->
+    <app-table [data]="inventory">
+      <ng-template appTableHeader>
+        <th>Item</th>
+        <th>Price</th>
+        <th></th>
+        <th></th>
+      </ng-template>
+      <ng-container *appTableRow="inventory as row">
+        <td>{{ row.name }}</td>
+        <td>{{ row.price | currency: row.currency }}</td>
+        <td>
+          <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
+            Buy now
+          </button>
+        </td>
+        <td>
+          <button>Delete</button>
+        </td>
+      </ng-container>
+    </app-table>
   `,
 })
 export class HomeComponent {
@@ -49,7 +80,7 @@ export class HomeComponent {
     { firstName: 'Employee', lastName: 'Five' },
   ];
 
-  inventory = [
+  inventory: InventoryItem[] = [
     {
       plu: 110,
       supplier: 'X Corp',
