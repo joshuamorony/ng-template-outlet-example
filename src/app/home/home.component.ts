@@ -14,41 +14,62 @@ interface InventoryItem {
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  // template: `
-  //   <!-- No templates provided, will use default layout -->
-  //   <app-table [data]="employees"></app-table>
-  //
-  //   <!-- Basic configured template -->
-  //   <app-table [data]="employees">
-  //     <ng-template appTableHeader>
-  //       <th>First</th>
-  //       <th>Last</th>
-  //     </ng-template>
-  //   </app-table>
-  //
-  //   <!-- Highly configured template with conditional elements -->
-  //   <app-table [data]="inventory">
-  //     <ng-template [appTableHeader]="inventory">
-  //       <th>Item</th>
-  //       <th>Price</th>
-  //       <th></th>
-  //       <th></th>
-  //     </ng-template>
-  //     <ng-container *appTableRow="inventory as row">
-  //       <td>{{ row.name }}</td>
-  //       <td>{{ row.price | currency: row.currency }}</td>
-  //       <td>
-  //         <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
-  //           Buy now
-  //         </button>
-  //       </td>
-  //       <td>
-  //         <button>Delete</button>
-  //       </td>
-  //     </ng-container>
-  //   </app-table>
-  // `,
+  template: `
+    <!-- No templates provided, will use default layout -->
+    <app-table [data]="employees"></app-table>
+
+    <!-- Basic configured template -->
+    <app-table [data]="employees">
+      <ng-template appTableHeader>
+        <th>First</th>
+        <th>Last</th>
+      </ng-template>
+    </app-table>
+
+    <!-- Highly configured template with conditional elements -->
+    <app-table [data]="inventory">
+      <ng-template appTableHeader>
+        <th>Item</th>
+        <th>Price</th>
+        <th></th>
+        <th></th>
+      </ng-template>
+      <ng-template [appTableRow]="inventory" let-row>
+        <td>{{ row.name }}</td>
+        <td>{{ row.price | currency: row.currency }}</td>
+        <td>
+          <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
+            Buy now
+          </button>
+        </td>
+        <td>
+          <button>Delete</button>
+        </td>
+      </ng-template>
+    </app-table>
+
+    <!-- using structural directive syntax -->
+    <app-table [data]="inventory">
+      <ng-template appTableHeader>
+        <th>Item</th>
+        <th>Price</th>
+        <th></th>
+        <th></th>
+      </ng-template>
+      <ng-container *appTableRow="inventory as row">
+        <td>{{ row.name }}</td>
+        <td>{{ row.price | currency: row.currency }}</td>
+        <td>
+          <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
+            Buy now
+          </button>
+        </td>
+        <td>
+          <button>Delete</button>
+        </td>
+      </ng-container>
+    </app-table>
+  `,
 })
 export class HomeComponent {
   employees = [
