@@ -11,7 +11,7 @@ import { TableComponentModule } from '../shared/ui/table.component';
 
     <!-- Basic configured template -->
     <app-table [data]="employees">
-      <ng-template #headers>
+      <ng-template appTableHeader>
         <th>First</th>
         <th>Last</th>
       </ng-template>
@@ -19,13 +19,13 @@ import { TableComponentModule } from '../shared/ui/table.component';
 
     <!-- Highly configured template with conditional elements -->
     <app-table [data]="inventory">
-      <ng-template #headers>
+      <ng-template appTableHeader>
         <th>Item</th>
         <th>Price</th>
         <th></th>
         <th></th>
       </ng-template>
-      <ng-template #rows let-row>
+      <ng-template appTableRow let-row>
         <td>{{ row.name }}</td>
         <td>{{ row.price | currency: row.currency }}</td>
         <td>

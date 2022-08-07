@@ -2,10 +2,21 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   ContentChild,
+  Directive,
   Input,
   NgModule,
   TemplateRef,
 } from '@angular/core';
+
+@Directive({
+  selector: 'ng-template[appTableHeader]',
+})
+export class TableHeaderTemplateDirective {}
+
+@Directive({
+  selector: 'ng-template[appTableRow]',
+})
+export class TableRowTemplateDirective {}
 
 @Component({
   selector: 'app-table',
@@ -73,13 +84,23 @@ import {
 })
 export class TableComponent {
   @Input() data!: any[];
-  @ContentChild('headers') headers: TemplateRef<any> | undefined;
-  @ContentChild('rows') rows: TemplateRef<any> | undefined;
+  @ContentChild(TableHeaderTemplateDirective, { read: TemplateRef })
+  headers?: TemplateRef<any>;
+  @ContentChild(TableRowTemplateDirective, { read: TemplateRef })
+  rows?: TemplateRef<any>;
 }
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [TableComponent],
-  exports: [TableComponent],
+  declarations: [
+    TableComponent,
+    TableHeaderTemplateDirective,
+    TableRowTemplateDirective,
+  ],
+  exports: [
+    TableComponent,
+    TableHeaderTemplateDirective,
+    TableRowTemplateDirective,
+  ],
 })
 export class TableComponentModule {}
