@@ -20,7 +20,7 @@ import { TableComponentModule } from '../shared/ui/table.component';
 
     <!-- Highly configured template with conditional elements -->
     <app-table [data]="inventory">
-      <ng-template [appTableHeader]="inventory" let-header>
+      <ng-template appTableHeader>
         <th>Item</th>
         <th>Price</th>
         <th></th>
