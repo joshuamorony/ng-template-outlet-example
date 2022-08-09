@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Employee, Inventory } from '../shared/interfaces/data';
 import { TableComponentModule } from '../shared/ui/table.component';
 
 @Component({
@@ -19,13 +20,13 @@ import { TableComponentModule } from '../shared/ui/table.component';
 
     <!-- Highly configured template with conditional elements -->
     <app-table [data]="inventory">
-      <ng-template appTableHeader>
+      <ng-template [appTableHeader]="inventory" let-header>
         <th>Item</th>
         <th>Price</th>
         <th></th>
         <th></th>
       </ng-template>
-      <ng-template appTableRow let-row>
+      <ng-template [appTableRow]="inventory" let-row>
         <td>{{ row.name }}</td>
         <td>{{ row.price | currency: row.currency }}</td>
         <td>
@@ -41,7 +42,7 @@ import { TableComponentModule } from '../shared/ui/table.component';
   `,
 })
 export class HomeComponent {
-  employees = [
+  employees: Employee[] = [
     { firstName: 'Employee', lastName: 'One' },
     { firstName: 'Employee', lastName: 'Two' },
     { firstName: 'Employee', lastName: 'Three' },
@@ -49,7 +50,7 @@ export class HomeComponent {
     { firstName: 'Employee', lastName: 'Five' },
   ];
 
-  inventory = [
+  inventory: Inventory[] = [
     {
       plu: 110,
       supplier: 'X Corp',
