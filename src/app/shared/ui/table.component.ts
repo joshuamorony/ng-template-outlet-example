@@ -8,17 +8,20 @@ import {
   TemplateRef,
 } from '@angular/core';
 
-interface TableHeaderTemplateContext<TItem extends object> {
+
+export type ItemBaseType = object;
+
+interface TableHeaderTemplateContext<TItem extends ItemBaseType> {
   $implicit: TItem[];
 }
 
 @Directive({
   selector: 'ng-template[appTableHeader]',
 })
-export class TableHeaderTemplateDirective<TItem extends object> {
+export class TableHeaderTemplateDirective<TItem extends ItemBaseType> {
   @Input('appTableHeader') data!: TItem[] | '';
 
-  static ngTemplateContextGuard<TContextItem extends object>(
+  static ngTemplateContextGuard<TContextItem extends ItemBaseType>(
     dir: TableHeaderTemplateDirective<TContextItem>,
     ctx: unknown
   ): ctx is TableHeaderTemplateContext<TContextItem> {
@@ -26,17 +29,17 @@ export class TableHeaderTemplateDirective<TItem extends object> {
   }
 }
 
-interface TableRowTemplateContext<TItem extends object> {
+interface TableRowTemplateContext<TItem extends ItemBaseType> {
   $implicit: TItem;
 }
 
 @Directive({
   selector: 'ng-template[appTableRow]',
 })
-export class TableRowTemplateDirective<TItem extends object> {
+export class TableRowTemplateDirective<TItem extends ItemBaseType> {
   @Input('appTableRow') data!: TItem[];
 
-  static ngTemplateContextGuard<TContextItem extends object>(
+  static ngTemplateContextGuard<TContextItem extends ItemBaseType>(
     dir: TableRowTemplateDirective<TContextItem>,
     ctx: unknown
   ): ctx is TableRowTemplateContext<TContextItem> {
@@ -108,7 +111,7 @@ export class TableRowTemplateDirective<TItem extends object> {
     `,
   ],
 })
-export class TableComponent<TItem extends object> {
+export class TableComponent<TItem extends ItemBaseType> {
   @Input() data!: TItem[];
   @ContentChild(TableHeaderTemplateDirective, { read: TemplateRef })
   headers?: TemplateRef<any>;
