@@ -20,22 +20,26 @@ import { TableComponentModule } from '../shared/ui/table.component';
     <!-- Highly configured template with conditional elements -->
     <app-table [data]="inventory">
       <ng-template #headers>
+        <th></th>
         <th>Item</th>
         <th>Price</th>
         <th></th>
         <th></th>
       </ng-template>
-      <ng-template #rows let-row>
-        <td>{{ row.name }}</td>
-        <td>{{ row.price | currency: row.currency }}</td>
-        <td>
-          <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
-            Buy now
-          </button>
-        </td>
-        <td>
-          <button>Delete</button>
-        </td>
+      <ng-template #rows let-row let-i="index">
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.price | currency: row.currency }}</td>
+          <td>
+            <button *ngIf="row.inStock > 0" (click)="purchaseItem(row.plu)">
+              Buy now
+            </button>
+          </td>
+          <td>
+            <button>Delete</button>
+          </td>
+        </tr>
       </ng-template>
     </app-table>
   `,
