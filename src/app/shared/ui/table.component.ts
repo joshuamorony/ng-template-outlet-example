@@ -22,14 +22,11 @@ import {
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of data">
-          <ng-container
-            *ngTemplateOutlet="
-              rows || defaultRowTemplate;
-              context: { $implicit: row }
-            "
-          ></ng-container>
-        </tr>
+        <ng-template
+          ngFor
+          [ngForOf]="data"
+          [ngForTemplate]="rows || defaultRowTemplate"
+        ></ng-template>
       </tbody>
     </table>
 
@@ -39,7 +36,9 @@ import {
     </ng-template>
 
     <ng-template #defaultRowTemplate let-row>
-      <td *ngFor="let row of row | keyvalue">{{ row.value }}</td>
+      <tr>
+        <td *ngFor="let row of row | keyvalue">{{ row.value }}</td>
+      </tr>
     </ng-template>
   `,
   styles: [
